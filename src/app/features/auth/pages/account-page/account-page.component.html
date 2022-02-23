@@ -1,0 +1,139 @@
+<div class="container">
+  <h1 class="fw-bold">Account</h1>
+  <app-loading-spinner *ngIf="!accountForm"></app-loading-spinner>
+  <form *ngIf="accountForm" [formGroup]="accountForm">
+    <h2 class="fw-light">Information</h2>
+    <div class="row">
+      <div class="col-sm">
+        <div class="mb-3">
+          <label for="first-name-input" class="form-label">First name</label>
+          <div class="input-group has-validation">
+            <input
+              formControlName="firstName"
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  accountForm.controls['firstName'].errors &&
+                  (accountForm.controls['firstName'].touched ||
+                    accountForm.controls['firstName'].dirty),
+                'is-valid':
+                  !accountForm.controls['firstName'].errors &&
+                  (accountForm.controls['firstName'].touched ||
+                    accountForm.controls['firstName'].dirty)
+              }"
+              id="first-name-input"
+              placeholder="Enter your first name"
+            />
+            <div class="invalid-feedback">Please enter your first name.</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="mb-3">
+          <label for="last-name-input" class="form-label">Last name</label>
+          <div class="input-group has-validation">
+            <input
+              formControlName="lastName"
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  accountForm.controls['lastName'].errors &&
+                  (accountForm.controls['lastName'].touched ||
+                    accountForm.controls['lastName'].dirty),
+                'is-valid':
+                  !accountForm.controls['lastName'].errors &&
+                  (accountForm.controls['lastName'].touched ||
+                    accountForm.controls['lastName'].dirty)
+              }"
+              id="last-name-input"
+              placeholder="Enter your last name"
+            />
+            <div class="invalid-feedback">Please enter your last name.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="mb-3">
+      <label for="company-name-input" class="form-label">Company name</label>
+      <div class="input-group has-validation">
+        <input
+          formControlName="companyName"
+          type="text"
+          id="company-name-input"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              accountForm.controls['companyName'].errors &&
+              (accountForm.controls['companyName'].touched ||
+                accountForm.controls['companyName'].dirty),
+            'is-valid':
+              !accountForm.controls['companyName'].errors &&
+              (accountForm.controls['companyName'].touched ||
+                accountForm.controls['companyName'].dirty)
+          }"
+          placeholder="{{ (userDetail$ | async)?.firstName }} {{ (userDetail$ | async)?.lastName }}"
+        />
+        <div class="invalid-feedback">Please enter your last name.</div>
+      </div>
+    </div> -->
+
+    <div class="mb-3">
+      <label for="email-input" class="form-label">Email address</label>
+      <input
+        type="email"
+        class="form-control text-secondary"
+        id="email-input"
+        [value]="user.email"
+        [attr.disabled]="true"
+      />
+    </div>
+
+    <div *ngIf="individualCustomer || corporateCustomer">
+      <h2 class="fw-light">Findeks</h2>
+      <div class="mb-3">
+        <label for="findeks-score-input" class="form-label"> Findeks Score </label>
+        <div class="input-group">
+          <input
+            id="findeks-score-input"
+            type="number"
+            class="form-control"
+            [value]="findeksCreditRate ? findeksCreditRate.score : 0"
+            [attr.disabled]="true"
+          />
+          <button class="btn btn-primary" (click)="updateFindeksCreditScore()">
+            <i class="pi pi-replay"></i> Update
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="fw-light">Security</h2>
+    <div class="row">
+      <div class="col">
+        <div class="mb-3">
+          <app-password-input
+            formControlName="password"
+            [errors]="accountForm.controls['password'].errors"
+            [touched]="accountForm.controls['password'].touched"
+            [dirty]="accountForm.controls['password'].dirty"
+            [invalidFeedback]="
+              accountForm.controls['password'].errors ? 'Please enter your password!' : ''
+            "
+          ></app-password-input>
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-3">
+          <app-password-input
+            formControlName="newPassword"
+            label="Enter new password (Optional)"
+          ></app-password-input>
+        </div>
+      </div>
+    </div>
+    <button (click)="updateAccount()" class="btn btn-primary">Update Account</button>
+  </form>
+</div>

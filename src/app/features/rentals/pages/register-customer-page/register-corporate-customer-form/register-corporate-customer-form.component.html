@@ -1,0 +1,53 @@
+<div class="container d-flex justify-content-center">
+  <form [formGroup]="registerForm" class="w-50">
+    <div class="mb-3">
+      <label for="companyName-input" class="form-label">Company name</label>
+      <div class="input-group has-validation">
+        <input
+          formControlName="companyName"
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              registerForm.controls['companyName'].errors &&
+              (registerForm.controls['companyName'].touched ||
+                registerForm.controls['companyName'].dirty),
+            'is-valid':
+              !registerForm.controls['companyName'].errors &&
+              (registerForm.controls['companyName'].touched ||
+                registerForm.controls['companyName'].dirty)
+          }"
+          id="companyName-input"
+          placeholder="Your name"
+        />
+        <div class="invalid-feedback">Enter your company name.</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="taxNoInput" class="form-label">Tax No</label>
+      <div class="input-group has-validation">
+        <input
+          formControlName="taxNo"
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              registerForm.controls['taxNo'].errors &&
+              (registerForm.controls['taxNo'].touched || registerForm.controls['taxNo'].dirty),
+            'is-valid':
+              !registerForm.controls['taxNo'].errors &&
+              (registerForm.controls['taxNo'].touched || registerForm.controls['taxNo'].dirty)
+          }"
+          id="taxNoInput"
+          placeholder="Your last name"
+        />
+        <div class="invalid-feedback">Enter your tax no.</div>
+      </div>
+    </div>
+
+    <button (click)="register()" class="btn btn-primary btn-lg rounded-1 shadow-xl w-100">
+      Save
+    </button>
+  </form>
+</div>

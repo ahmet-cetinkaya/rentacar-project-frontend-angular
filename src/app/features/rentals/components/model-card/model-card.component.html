@@ -1,0 +1,28 @@
+<div class="card bg-light rounded-2 shadow overflow-hidden">
+  <div
+    routerLink="/model/{{ modelListModel.id }}"
+    class="card-img d-flex justify-content-center align-items-center cursor-pointer"
+    appHover
+  >
+    <img
+      src="{{ modelListModel.imageUrl }}"
+      class="card-img-top"
+      alt="Rent {{ modelListModel.brandName }} {{ modelListModel.name }} - RentACar Project"
+    />
+  </div>
+  <div class="card-body">
+    <div class="mb-2">
+      <span class="_model-tag border border-secondary text-muted rounded-1 px-3 me-2 fw-light">
+        {{ modelListModel.transmissionName }}
+      </span>
+      <span class="_model-tag border border-secondary text-muted rounded-1 px-3 fw-light">
+        {{ modelListModel.fuelName }}
+      </span>
+    </div>
+    <h5 class="card-title">{{ modelListModel.brandName }} {{ modelListModel.name }}</h5>
+    <p class="mt-1 card-text text-primary fs-3">${{ modelListModel.dailyPrice }}</p>
+    <button routerLink="/model/{{ modelListModel.id }}" class="btn btn-primary w-100" appHover>
+      Rent Now
+    </button>
+  </div>
+</div>

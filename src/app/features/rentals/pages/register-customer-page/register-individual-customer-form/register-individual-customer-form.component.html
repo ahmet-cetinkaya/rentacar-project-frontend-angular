@@ -1,0 +1,78 @@
+<div class="container d-flex justify-content-center">
+  <form [formGroup]="registerForm" class="w-50">
+    <div class="mb-3">
+      <label for="firtNameInput" class="form-label">Enter your first name</label>
+      <div class="input-group has-validation">
+        <input
+          formControlName="firstName"
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              registerForm.controls['firstName'].errors &&
+              (registerForm.controls['firstName'].touched ||
+                registerForm.controls['firstName'].dirty),
+            'is-valid':
+              !registerForm.controls['firstName'].errors &&
+              (registerForm.controls['firstName'].touched ||
+                registerForm.controls['firstName'].dirty)
+          }"
+          id="firtNameInput"
+          placeholder="Your name"
+        />
+        <div class="invalid-feedback">Please enter your first name.</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="lastNameInput" class="form-label">Enter your last name</label>
+      <div class="input-group has-validation">
+        <input
+          formControlName="lastName"
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              registerForm.controls['lastName'].errors &&
+              (registerForm.controls['lastName'].touched ||
+                registerForm.controls['lastName'].dirty),
+            'is-valid':
+              !registerForm.controls['lastName'].errors &&
+              (registerForm.controls['lastName'].touched || registerForm.controls['lastName'].dirty)
+          }"
+          id="lastNameInput"
+          placeholder="Your last name"
+        />
+        <div class="invalid-feedback">Please enter your last name.</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="nationalIdentityInput" class="form-label">Enter your national identity.</label>
+      <div class="input-group has-validation">
+        <input
+          formControlName="nationalIdentity"
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              registerForm.controls['nationalIdentity'].errors &&
+              (registerForm.controls['nationalIdentity'].touched ||
+                registerForm.controls['nationalIdentity'].dirty),
+            'is-valid':
+              !registerForm.controls['nationalIdentity'].errors &&
+              (registerForm.controls['nationalIdentity'].touched ||
+                registerForm.controls['nationalIdentity'].dirty)
+          }"
+          id="nationalIdentityInput"
+          placeholder="Your national identity"
+        />
+        <div class="invalid-feedback">Please enter your national identity.</div>
+      </div>
+    </div>
+
+    <button (click)="register()" class="btn btn-primary btn-lg rounded-1 shadow-xl w-100">
+      Save
+    </button>
+  </form>
+</div>

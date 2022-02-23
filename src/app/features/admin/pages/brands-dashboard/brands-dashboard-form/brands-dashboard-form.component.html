@@ -1,0 +1,31 @@
+<h1 class="display-6 fw-bold mb-3">Brand Form</h1>
+<div class="card p-2 rounded-2 shadow-xl">
+  <div class="card-body">
+    <form *ngIf="brandForm" [formGroup]="brandForm">
+      <div class="form-group mb-3">
+        <label for="brand-name-input" class="fw-bold mb-3">Name</label>
+        <input
+          type="text"
+          id="brand-name-input"
+          formControlName="name"
+          class="form-control"
+          placeholder="Name"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="card-footer d-flex justify-content-between">
+    <button
+      *ngIf="!brandToEdit; else editFromButtons"
+      (click)="add()"
+      class="btn btn-primary btn-lg w-100 shadow-sm"
+    >
+      Add
+    </button>
+    <ng-template #editFromButtons>
+      <button (click)="update()" class="btn btn-primary btn-lg shadow-sm w-50">Edit</button>
+      <button (click)="delete()" class="btn btn-danger btn-lg shadow-sm w-25">Delete</button>
+    </ng-template>
+  </div>
+</div>

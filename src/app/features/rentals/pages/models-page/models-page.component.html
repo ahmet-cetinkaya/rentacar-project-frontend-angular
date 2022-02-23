@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <app-model-filter-menu
+        (modelFilterTextEvent)="receiveCarFilterText($event)"
+      ></app-model-filter-menu>
+    </div>
+    <div class="col">
+      <app-models-list [modelFilterText]="modelFilterText" class="col-4"></app-models-list>
+    </div>
+  </div>
+</div>

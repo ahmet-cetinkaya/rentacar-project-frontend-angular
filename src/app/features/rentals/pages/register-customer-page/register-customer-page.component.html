@@ -1,0 +1,50 @@
+<div class="container">
+  <ul class="nav nav-pills mb-3 d-flex justify-content-evenly" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button
+        class="btn btn-light btn-lg active"
+        id="pills-home-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-home"
+        type="button"
+        role="tab"
+        aria-controls="pills-home"
+        aria-selected="true"
+      >
+        Individual
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="btn btn-light btn-lg"
+        id="pills-profile-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-profile"
+        type="button"
+        role="tab"
+        aria-controls="pills-profile"
+        aria-selected="false"
+      >
+        Corporate
+      </button>
+    </li>
+  </ul>
+  <div class="tab-content mt-5" id="pills-tabContent">
+    <div
+      class="tab-pane fade show active"
+      id="pills-home"
+      role="tabpanel"
+      aria-labelledby="pills-home-tab"
+    >
+      <app-register-individual-customer-form></app-register-individual-customer-form>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="pills-profile"
+      role="tabpanel"
+      aria-labelledby="pills-profile-tab"
+    >
+      <app-register-corporate-customer-form></app-register-corporate-customer-form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div
+  *ngIf="dataLoaded && (modelList | filterModelList: modelFilterText).length == 0"
+  class="alert alert-info w-100"
+  role="alert"
+>
+  Not exist model by filter yet!
+</div>
+<div id="models-list" class="row mx-3">
+  <app-loading-spinner *ngIf="!dataLoaded"></app-loading-spinner>
+  <app-model-card
+    *ngFor="let modelListModel of modelList | filterModelList: modelFilterText"
+    [modelListModel]="modelListModel"
+    class="{{ class }} p-3 pt-0"
+  ></app-model-card>
+</div>

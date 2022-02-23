@@ -1,0 +1,162 @@
+<div class="container-fluid container-md py-5 mb-5">
+  <div *ngIf="isDataLoaded; else loadingSpinner">
+    <div class="row">
+      <div class="col-lg">
+        <h1 class="display-1 fw-bold">{{ brand?.name }}</h1>
+        <h2 class="display-3 fw-light">
+          {{ model?.name }}
+        </h2>
+        <div class="my-5">
+          <h6 class="display-6 fw-light mb-3">Description:</h6>
+          <p *ngIf="fuel">
+            Fuel: <span class="border rounded px-2 py-1">{{ fuel?.name }}</span>
+          </p>
+          <p *ngIf="transmission">
+            Transmission:
+            <span class="border rounded px-2 py-1">{{ transmission?.name }}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col-lg">
+        <img
+          src="{{ model.imageUrl }}"
+          class="d-block w-100"
+          appHover
+          alt="Rent {{ model.name }} Model Car Image"
+        />
+        <!-- <div
+        id="car-images-carousel"
+        class="carousel carousel-dark slide"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-indicators">
+          <button
+            *ngFor="let carImage of carImages; let i = index"
+            type="button"
+            data-bs-target="#car-images-carousel"
+            attr.data-bs-slide-to="{{ i }}"
+            class="{{ isActiveCarousel(i) }}"
+            aria-current="true"
+            attr.aria-label="Car Image {{ i }}"
+          ></button>
+        </div>
+        <div class="carousel-inner">
+          <div
+            *ngFor="let carImage of carImages; let i = index"
+            class="carousel-item {{ isActiveCarousel(i) }} w-100"
+          >
+            <div class="d-flex align-items-center justify-content-center h-100">
+              <img
+                src="{{ getCarImageUrl(carImage.id) }}"
+                class="d-block w-100"
+                appHover
+                alt="Rent {{ brand.name }} {{ car.name }} {{
+                  car.modelYear
+                }} Car Image"
+              />
+            </div>
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#car-images-carousel"
+          data-bs-slide="prev"
+        >
+          <span
+            class="carousel-control-prev-icon text-shadow"
+            aria-hidden="true"
+          ></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#car-images-carousel"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div> -->
+      </div>
+    </div>
+
+    <div id="book-car-menu">
+      <h5 class="display-5 fw-bold mb-4">Book This Model</h5>
+      <div class="bg-light rounded-1 shadow my-5 my-xl-0 p-3 ps-4">
+        <form [formGroup]="rentForm">
+          <div class="row mb-3">
+            <div class="col-md form-group">
+              <label for="pick-up-date-input" class="form-label text-dark">Pick-up Location:</label>
+              <select formControlName="rentStartRentalBranchId" class="form-select">
+                <option selected disabled hidden value="">Choose a location</option>
+                <option *ngFor="let rentalBranch of rentalBranches" value="{{ rentalBranch.id }}">
+                  {{ getRentalBranchCityNameById(rentalBranch.city) }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md form-group">
+              <label for="pick-up-date-input" class="form-label text-dark">Deliver Location:</label>
+              <select formControlName="rentEndRentalBranchId" class="form-select">
+                <option selected disabled hidden value="">Choose a location</option>
+                <option *ngFor="let rentalBranch of rentalBranches" value="{{ rentalBranch.id }}">
+                  {{ getRentalBranchCityNameById(rentalBranch.city) }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md form-group">
+              <label for="rent-start-date-input" class="form-label text-dark">Pick-up Date:</label>
+              <input
+                formControlName="rentStartDate"
+                name="rentStartDate"
+                class="form-control"
+                type="datetime-local"
+                id="rent-start-date-input"
+                required
+              />
+            </div>
+            <div class="col-md form-group">
+              <label for="rent-end-date-input" class="form-label text-dark">Return Date:</label>
+              <input
+                formControlName="rentEndDate"
+                name="rentEndDate"
+                class="form-control"
+                type="datetime-local"
+                id="rent-end-date-input"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              (click)="rent()"
+              class="col-lg btn btn-primary rounded-1 mt-3 p-3 m-lg-0 p-lg-0"
+              appHover
+              [appHoverScale]="1.05"
+            >
+              Book!
+            </button>
+          </div>
+
+          <div id="additionalServicesInput" class="mb-3">
+            <label for="additionalServicesInput" class="d-flex align-content-center">
+              Additional Services
+            </label>
+            <p-multiSelect
+              [options]="additionalServices"
+              formControlName="additionalServiceIds"
+              optionLabel="name"
+              optionValue="id"
+              placeholder="Select additional services"
+              display="chip"
+            ></p-multiSelect>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loadingSpinner>
+    <app-loading-spinner></app-loading-spinner>
+  </ng-template>
+</div>

@@ -1,0 +1,165 @@
+<h1 class="display-6 fw-bold mb-3">Car Form</h1>
+<div class="card p-2 rounded-2 shadow-xl">
+  <div class="card-body">
+    <form *ngIf="carForm" [formGroup]="carForm">
+      <div class="row">
+        <div id="model-input" class="col-lg mb-3">
+          <label for="model-input" class="d-flex align-content-center">
+            <span class="fw-bold d-flex align-items-center">Model</span>
+            <div class="form-floating ms-3">
+              <input
+                type="text"
+                formControlName="modelFilterText"
+                class="form-control border-0"
+                id="search-model-input"
+                placeholder="Model Name"
+              />
+              <label for="search-model-input" class="text-muted"
+                ><i class="pi pi-search"></i> Search</label
+              >
+            </div>
+          </label>
+          <select class="form-select" size="5" formControlName="modelId">
+            <option
+              *ngFor="let model of modelList | filterModelList: carForm.value['modelFilterText']"
+              value="{{ model.id }}"
+            >
+              {{ model.brandName }} {{ model.name }}
+            </option>
+          </select>
+        </div>
+
+        <div id="rentalBranch-input" class="col-lg mb-3">
+          <label for="rentalBranch-input" class="d-flex align-content-center">
+            <span class="fw-bold d-flex align-items-center">Branch</span>
+            <div class="form-floating ms-3">
+              <input
+                type="text"
+                formControlName="rentalBranchFilterText"
+                class="form-control border-0"
+                id="search-rentalBranch-input"
+                placeholder="Rental Branch Name"
+              />
+              <label for="search-rentalBranch-input" class="text-muted"
+                ><i class="pi pi-search"></i> Search</label
+              >
+            </div>
+          </label>
+          <select
+            id="rentalBranch-input"
+            formControlName="rentalBranchId"
+            class="form-select"
+            size="5"
+          >
+            <option
+              *ngFor="
+                let rentalBranch of rentalBranches
+                  | filterRentalBranches: this.carForm.value['rentalBranchFilterText']
+              "
+              value="{{ rentalBranch.id }}"
+            >
+              {{ getRentalBranchCityNameById(rentalBranch.city) }}
+            </option>
+          </select>
+        </div>
+
+        <div id="color-input" class="col-lg mb-3">
+          <label for="color-input" class="d-flex align-content-center">
+            <span class="fw-bold d-flex align-items-center">Color</span>
+            <div class="form-floating ms-3">
+              <input
+                type="text"
+                formControlName="colorFilterText"
+                class="form-control border-0"
+                id="search-color-input"
+                placeholder="Color Name"
+              />
+              <label for="search-color-input" class="text-muted"
+                ><i class="pi pi-search"></i> Search</label
+              >
+            </div>
+          </label>
+          <select id="color-input" formControlName="colorId" class="form-select" size="5">
+            <option
+              *ngFor="let color of colors | filterColors: this.carForm.value['colorFilterText']"
+              value="{{ color.id }}"
+            >
+              {{ color.name }}
+            </option>
+          </select>
+        </div>
+
+        <div id="car-state-input" class="col-lg mb-3">
+          <label for="car-state-input" class="d-flex align-content-center">
+            <span class="fw-bold d-flex align-items-center my-3">Car State</span>
+          </label>
+          <select id="car-state-input" formControlName="carState" class="form-select" size="5">
+            <option *ngFor="let carState of carStates" value="{{ carState.value }}">
+              {{ carState.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="kilometer-input" class="fw-bold mb-3">Kilometer</label>
+        <input
+          type="number"
+          formControlName="kilometer"
+          id="kilometer-input"
+          class="form-control"
+          placeholder="Kilometer"
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="model-year-input" class="fw-bold mb-3">Model Year</label>
+        <input
+          id="model-year-input"
+          type="number"
+          formControlName="modelYear"
+          class="form-control"
+          placeholder="Model Year"
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="plate-input" class="fw-bold mb-3">Plate</label>
+        <input
+          type="text"
+          formControlName="plate"
+          id="plate-input"
+          class="form-control"
+          placeholder="Plate"
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="minFindeksCreditRate-input" class="fw-bold mb-3"
+          >Minimum Findeks Credit Rate</label
+        >
+        <input
+          type="text"
+          formControlName="minFindeksCreditRate"
+          id="minFindeksCreditRate-input"
+          class="form-control"
+          placeholder="Minimum Findeks Credit Rate"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="card-footer d-flex justify-content-between">
+    <button
+      *ngIf="!carToEdit; else editFromButtons"
+      (click)="add()"
+      class="btn btn-primary btn-lg w-100 shadow-sm"
+    >
+      Add
+    </button>
+    <ng-template #editFromButtons>
+      <button (click)="update()" class="btn btn-primary btn-lg shadow-sm w-50">Edit</button>
+      <button (click)="delete()" class="btn btn-danger btn-lg shadow-sm w-25">Delete</button>
+    </ng-template>
+  </div>
+</div>

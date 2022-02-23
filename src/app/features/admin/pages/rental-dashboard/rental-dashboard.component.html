@@ -1,0 +1,31 @@
+<div class="d-flex mb-3">
+  <h1 class="display-6 fw-bold m-0">Rental Lists</h1>
+</div>
+
+<div class="card p-2 rounded-2 shadow-xl">
+  <table class="table table-hover">
+    <thead class="card-header">
+      <tr class="text-uppercase">
+        <th scope="col">Id</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Car</th>
+        <th scope="col">Start</th>
+        <th scope="col">End</th>
+        <th scope="col">Return</th>
+      </tr>
+    </thead>
+    <tbody class="card-body">
+      <tr *ngFor="let rental of rentalListModel.items">
+        <th scope="row">{{ rental.id }}</th>
+        <td>{{ rental.customerFullName | titlecase }}</td>
+        <td>
+          {{ rental.carPlate | uppercase }} {{ rental.carModelBrandName | uppercase }}
+          {{ rental.carModelName | titlecase }} {{ rental.carModelYear }}
+        </td>
+        <td>{{ rental.rentStartDate | date }}</td>
+        <td>{{ rental.rentEndDate | date }}</td>
+        <td>{{ rental.returnDate | date }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

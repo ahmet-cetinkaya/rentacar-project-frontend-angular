@@ -1,0 +1,84 @@
+<div class="accordion" id="adminDashboardMenu">
+  <div class="accordion-item bg-transparent">
+    <app-admin-dashboard-menu-item
+      name="Dashboard"
+      routerLink="'./'"
+      [isExactActive]="true"
+      data-bs-toggle="collapse"
+      data-bs-target="#Dashboard"
+      aria-expanded="true"
+      aria-controls="Dashboard"
+    ></app-admin-dashboard-menu-item>
+    <div
+      id="Dashboard"
+      class="accordion-collapse collapse"
+      data-bs-parent="#adminDashboardMenu"
+    ></div>
+  </div>
+  <div class="accordion-item bg-transparent">
+    <app-admin-dashboard-menu-item
+      name="Cars"
+      routerLink="cars"
+      data-bs-toggle="collapse"
+      data-bs-target="#Cars"
+      aria-expanded="true"
+      aria-controls="Cars"
+    ></app-admin-dashboard-menu-item>
+    <div id="Cars" class="accordion-collapse collapse" data-bs-parent="#adminDashboardMenu">
+      <div class="accordion-body p-0 ps-3">
+        <app-admin-dashboard-menu-item
+          name="Car Damages"
+          routerLink="car-damages"
+        ></app-admin-dashboard-menu-item>
+        <app-admin-dashboard-menu-item
+          name="Colors"
+          routerLink="colors"
+        ></app-admin-dashboard-menu-item>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item bg-transparent">
+    <app-admin-dashboard-menu-item
+      name="Models"
+      routerLink="models"
+      data-bs-toggle="collapse"
+      data-bs-target="#Models"
+      aria-expanded="true"
+      aria-controls="Models"
+    ></app-admin-dashboard-menu-item>
+    <div id="Models" class="accordion-collapse collapse" data-bs-parent="#adminDashboardMenu">
+      <div class="accordion-body p-0 ps-3">
+        <app-admin-dashboard-menu-item
+          name="Brands"
+          routerLink="brands"
+        ></app-admin-dashboard-menu-item>
+        <app-admin-dashboard-menu-item
+          name="Fuels"
+          routerLink="fuels"
+        ></app-admin-dashboard-menu-item>
+        <app-admin-dashboard-menu-item
+          name="Transmissions"
+          routerLink="transmissions"
+        ></app-admin-dashboard-menu-item>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item bg-transparent">
+    <app-admin-dashboard-menu-item
+      name="Rentals"
+      routerLink="rentals"
+      data-bs-toggle="collapse"
+      data-bs-target="#Rentals"
+      aria-expanded="true"
+      aria-controls="Rentals"
+    ></app-admin-dashboard-menu-item>
+    <div id="Rentals" class="accordion-collapse collapse" data-bs-parent="#adminDashboardMenu">
+      <div class="accordion-body p-0 ps-3">
+        <app-admin-dashboard-menu-item
+          name="Additional Services"
+          routerLink="additional-services"
+        ></app-admin-dashboard-menu-item>
+      </div>
+    </div>
+  </div>
+</div>

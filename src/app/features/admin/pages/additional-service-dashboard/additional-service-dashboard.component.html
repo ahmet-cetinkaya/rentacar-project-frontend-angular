@@ -1,0 +1,34 @@
+<div class="d-flex mb-3">
+  <h1 class="display-6 fw-bold m-0">Additional Service Lists</h1>
+  <button class="btn btn-primary ms-4 btn-lg" routerLink="add">
+    <i class="fas fa-plus"></i> Add
+  </button>
+</div>
+
+<div class="card p-2 rounded-2 shadow-xl">
+  <table class="table table-hover">
+    <thead class="card-header">
+      <tr class="text-uppercase">
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Daily Price</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody class="card-body">
+      <tr *ngFor="let additionalService of additionalServices.items">
+        <th scope="row">{{ additionalService.id }}</th>
+        <td>{{ additionalService.name | titlecase }}</td>
+        <th scope="col">{{ additionalService.dailyPrice | currency }}</th>
+        <td class="d-flex justify-content-center">
+          <button
+            routerLink="edit/{{ additionalService.id }}"
+            class="btn btn-sm btn-primary shadow-sm"
+          >
+            <i class="pi pi-pencil"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

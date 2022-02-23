@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+$dark: #222831;
+$light-dark: #393e46;
+$main-color: #00adb5;
+$light-main-color: #b3fcff;
+$light: #fafafa;
+
+:host {
+  font-family: 'Poppins';
+}
+
+.bg-dark,
+.btn-dark {
+  background: $dark !important;
+  color: $light;
+}
+
+.bg-light {
+  background: $light !important;
+  color: $dark !important;
+}
+
+.bg-transparent {
+  background: transparent !important;
+  border: transparent !important;
+}
+
+.bg-primary-gradient {
+  background: rgb(2, 188, 196);
+  background: linear-gradient(90deg, rgba(2, 188, 196, 1) 0%, rgba(0, 173, 181, 1) 45%);
+}
+
+.bg-primary {
+  background: $main-color !important;
+}
+
+.btn-primary {
+  background: $main-color !important;
+  border-color: $main-color !important;
+}
+
+.rounded-1 {
+  border-radius: 0.5rem !important;
+}
+
+.rounded-2 {
+  border-radius: 1rem !important;
+}
+
+.rounded-3 {
+  border-radius: 2rem !important;
+}
+
+.flip-vertical {
+  transform: scaleY(-1);
+}
+
+.text-primary {
+  color: #00adb5 !important;
+}
+
+.w-70 {
+  width: 70% !important;
+}
+
+.text-shadow-xl {
+  text-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25) !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.shadow-xl {
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 20%) !important;
+}
+
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
+select:active,
+select:focus,
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active {
+  outline: 0px !important;
+  -webkit-appearance: none;
+  box-shadow: none !important;
+}

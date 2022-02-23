@@ -1,0 +1,6 @@
+@import '../../../../../styles.scss';
+
+.btn.active {
+  @extend .btn-primary;
+  color: white;
+}

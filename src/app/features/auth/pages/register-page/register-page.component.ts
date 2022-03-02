@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { AuthService } from '../../../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserForRegisterDto } from '../../../../core/models/register';
-import { AuthService } from '../../../../core/services/auth/auth.service';
 
 @Component({
   templateUrl: './register-page.component.html',
@@ -39,9 +40,8 @@ export class RegisterPageComponent implements OnInit {
 
     let registerModel: UserForRegisterDto = { ...this.registerForm.value };
     this.authService.register(registerModel).subscribe({
-      next: response => {
-        localStorage.setItem('token', response.token);
-        this.authService.refreshTokenUserModel();
+      next: accessToken => {
+        this.authService.setToken(accessToken);
       },
       complete: () => {
         this.toastrService.info("You've been registered successfully!");

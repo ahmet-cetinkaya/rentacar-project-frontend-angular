@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { User, UserForUpdateFromAuthDto } from 'app/core/models/user';
+
 import { AuthService } from 'app/core/services/auth/auth.service';
 import { CorporateCustomer } from 'app/shared/models/corporateCustomer';
-import { Customer } from 'app/shared/models/customer';
-import { FindeksCreditRate } from 'app/shared/models/findeksCreditRate';
-import { IndividualCustomer } from 'app/shared/models/individualCustomer';
 import { CorporateCustomerService } from 'app/shared/services/corporateCustomer/corporate-customer.service';
+import { Customer } from 'app/shared/models/customer';
 import { CustomerService } from 'app/shared/services/customerService/customer.service';
+import { FindeksCreditRate } from 'app/shared/models/findeksCreditRate';
 import { FindeksCreditRateService } from 'app/shared/services/findeksCreditRateService/findeks-credit-rate.service';
+import { IndividualCustomer } from 'app/shared/models/individualCustomer';
 import { IndividualCustomerService } from 'app/shared/services/individualService/individual-customer.service';
-import { UserService } from 'app/shared/services/userService/user.service';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { UpdatedUserFromAuthDto } from './../../../../core/models/user';
+import { UserService } from 'app/shared/services/userService/user.service';
 
 @Component({
   selector: 'app-account-page',
@@ -100,11 +102,12 @@ export class AccountPageComponent implements OnInit {
       ...this.accountForm.value
     };
 
-    this.userService.updateFromAuth(userForUpdateFromAuthDto).subscribe(response => {
-      localStorage.setItem('token', response.accessToken.token);
-      this.authService.refreshTokenUserModel();
-      this.toastrService.success('Account updated successfully');
-    });
+    this.userService
+      .updateFromAuth(userForUpdateFromAuthDto)
+      .subscribe((response: UpdatedUserFromAuthDto) => {
+        this.authService.setToken(response.accessToken);
+        this.toastrService.success('Account updated successfully');
+      });
   }
 
   updateFindeksCreditScore() {

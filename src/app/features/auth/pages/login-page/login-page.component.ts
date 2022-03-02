@@ -1,10 +1,12 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+
+import { AuthService } from '../../../../core/services/auth/auth.service';
+import { LoggedResponseDto } from './../../../../core/models/login';
+import { Redirect } from '../../../../core/models/redirect';
 import { ToastrService } from 'ngx-toastr';
 import { UserForLoginDto } from '../../../../core/models/login';
-import { Redirect } from '../../../../core/models/redirect';
-import { AuthService } from '../../../../core/services/auth/auth.service';
 
 @Component({
   templateUrl: './login-page.component.html',
@@ -40,11 +42,8 @@ export class LoginPageComponent implements OnInit {
     let userForLoginDto: UserForLoginDto = { ...this.loginForm.value };
 
     this.authService.login(userForLoginDto).subscribe({
-      next: response => {
-        if (response.accessToken?.token) {
-          localStorage.setItem('token', response.accessToken?.token);
-          this.authService.refreshTokenUserModel();
-        }
+      next: (response: LoggedResponseDto) => {
+        if (response.accessToken?.token) this.authService.setToken(response.accessToken);
       },
       complete: () => {
         this.toastrService.info("You've been logged in successfully!");
@@ -53,6 +52,7 @@ export class LoginPageComponent implements OnInit {
             this.router.navigate(['']);
             return;
           }
+
           const redirect: Redirect = JSON.parse(queryParams['redirect']);
           this.router.navigate([redirect.url], {
             queryParams: { redirect: JSON.stringify(redirect.next) }

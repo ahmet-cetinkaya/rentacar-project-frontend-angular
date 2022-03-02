@@ -1,16 +1,17 @@
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { JwtModule } from '@auth0/angular-jwt';
-import { CookieService } from 'ngx-cookie-service';
-import { ToastrModule } from 'ngx-toastr';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
 import { AdminModule } from './features/admin/admin.module';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './features/auth/auth.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
+import { CoreModule } from './core/core.module';
+import { HttpClientModule } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
+import { NgModule } from '@angular/core';
 import { RentalsModule } from './features/rentals/rentals.module';
 import { SharedModule } from './shared/shared.module';
+import { ToastrModule } from 'ngx-toastr';
+import { authInterceptorProviders } from './core/interceptors/auth/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,7 +36,7 @@ import { SharedModule } from './shared/shared.module';
     })
   ],
   exports: [],
-  providers: [CookieService],
+  providers: [CookieService, authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -1,24 +1,26 @@
+import { LoggedResponseDto, UserForLoginDto } from '../../models/login';
+import { Observable, map } from 'rxjs';
+import { deleteTokenUserModel, setTokenUserModel } from '../../store/auth/auth.actions';
+
+import { AccessToken } from 'app/core/models/accessToken';
+import { CookieService } from 'ngx-cookie-service';
+import { CoreStates } from '../../store/core.reducer';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { Store } from '@ngrx/store';
-import { environment } from 'environments/environment';
-import { CookieService } from 'ngx-cookie-service';
-import { map, Observable } from 'rxjs';
 import { JWTTokenClaim } from '../../constants/jwtTokenClaim';
-import { AccessToken } from '../../models/accessToken';
-import { LoggedResponseDto, UserForLoginDto } from '../../models/login';
-import { UserForRegisterDto } from '../../models/register';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { TokenUserModel } from '../../models/tokenUserModel';
-import { deleteTokenUserModel, setTokenUserModel } from '../../store/auth/auth.actions';
-import { CoreStates } from '../../store/core.reducer';
+import { UserForRegisterDto } from '../../models/register';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   apiControllerUrl: string = `${environment.apiUrl}/auth`;
+
   tokenUserModel$: Observable<TokenUserModel | undefined> = this.store
     .select(states => states.appAuth)
     .pipe(map(state => state.tokenUserModel));
@@ -47,17 +49,15 @@ export class AuthService {
     );
   }
 
-  logout() {
-    localStorage.removeItem('token');
-    this.deleteTokenUserModel();
+  refreshToken() {
+    return this.httpClient.get<AccessToken>(`${this.apiControllerUrl}/RefreshToken`, {
+      withCredentials: true
+    });
   }
 
   get isAuthenticated(): boolean {
     if (!this.jwtHelperService.tokenGetter()) return false;
-    if (this.jwtHelperService.isTokenExpired()) {
-      this.refreshToken();
-      return false;
-    }
+    if (this.jwtHelperService.isTokenExpired()) return false;
     return true;
   }
 
@@ -73,30 +73,36 @@ export class AuthService {
     return true;
   }
 
-  refreshToken() {
-    this.httpClient
-      .get<AccessToken>(`${this.apiControllerUrl}/RefreshToken`, { withCredentials: true })
-      .subscribe({
-        next: (accessToken: AccessToken) => {
-          localStorage.setItem('token', accessToken.token);
-          this.refreshTokenUserModel();
+  setToken(AccessToken: AccessToken) {
+    localStorage.setItem('token', AccessToken.token);
+    this.setTokenUserModel();
+  }
+
+  setTokenUserModel() {
+    const tokenUserModel = this.getTokenUserModel();
+    if (tokenUserModel) this.store.dispatch(setTokenUserModel({ tokenUserModel }));
+  }
+
+  refreshAuth() {
+    if (!this.isAuthenticated) {
+      this.refreshToken().subscribe({
+        next: accessToken => {
+          this.setToken(accessToken);
         },
         error: () => {
           this.logout();
         }
       });
+      return;
+    }
+
+    this.setTokenUserModel();
   }
 
-  setTokenUserModel(tokenUserModel: TokenUserModel) {
-    this.store.dispatch(setTokenUserModel({ tokenUserModel }));
-  }
-
-  refreshTokenUserModel() {
-    const tokenUserModel: TokenUserModel | undefined = this.getTokenUserModel();
-    if (!tokenUserModel) return;
-    if (!this.isAuthenticated) return;
-
-    this.setTokenUserModel(tokenUserModel);
+  logout() {
+    this.cookieService.delete('refreshToken');
+    localStorage.removeItem('token');
+    this.deleteTokenUserModel();
   }
 
   deleteTokenUserModel() {

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
 import { AuthService } from './core/services/auth/auth.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +12,6 @@ export class AppComponent {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.setTokenUserModelFromToken();
-  }
-
-  setTokenUserModelFromToken() {
-    this.authService.refreshTokenUserModel();
+    this.authService.refreshAuth();
   }
 }

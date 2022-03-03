@@ -12,6 +12,7 @@
       <label for="search-model-input"><i class="pi pi-search"></i> Search</label>
     </div>
   </div>
+
   <div id="brand-filter">
     <div class="d-flex align-content-center my-3">
       <span class="display-6 fw-bold d-flex align-items-center">Brand</span>
@@ -32,15 +33,75 @@
     <select
       class="form-select"
       size="5"
-      [(ngModel)]="activeBrandName"
+      [(ngModel)]="activeBrandId"
       [compareWith]="isBrandSelected"
     >
-      <option value="">All</option>
-      <option *ngFor="let brand of brands | filterBrands: brandFilterText" value="{{ brand.name }}">
+      <option [value]="0">All</option>
+      <option *ngFor="let brand of brands | filterBrands: brandFilterText" [value]="brand.id">
         {{ brand.name }}
       </option>
     </select>
   </div>
+
+  <div id="fuel-filter">
+    <div class="d-flex align-content-center my-3">
+      <span class="display-6 fw-bold d-flex align-items-center">Fuel</span>
+      <div class="form-floating ms-3">
+        <input
+          type="text"
+          class="form-control border-0"
+          id="search-fuel-input"
+          placeholder="Fuel Name"
+          [(ngModel)]="fuelFilterText"
+        />
+        <label for="search-fuel-input" class="text-muted"
+          ><i class="pi pi-search"></i> Search</label
+        >
+      </div>
+    </div>
+
+    <select class="form-select" size="5" [(ngModel)]="activeFuelId" [compareWith]="isFuelSelected">
+      <option [value]="0">All</option>
+      <option *ngFor="let fuel of fuels | filterFuels: fuelFilterText" [value]="fuel.id">
+        {{ fuel.name }}
+      </option>
+    </select>
+  </div>
+
+  <div id="transmission-filter">
+    <div class="d-flex align-content-center my-3">
+      <span class="display-6 fw-bold d-flex align-items-center">Transmission</span>
+      <div class="form-floating ms-3">
+        <input
+          type="text"
+          class="form-control border-0"
+          id="search-transmission-input"
+          placeholder="Transmission Name"
+          [(ngModel)]="transmissionFilterText"
+        />
+        <label for="search-transmission-input" class="text-muted"
+          ><i class="pi pi-search"></i> Search</label
+        >
+      </div>
+    </div>
+
+    <select
+      class="form-select"
+      size="5"
+      [(ngModel)]="activeTransmissionId"
+      [compareWith]="isTransmissionSelected"
+    >
+      <option [value]="0">All</option>
+      <option
+        *ngFor="let transmission of transmissions | filterTransmissions: transmissionFilterText"
+        [value]="transmission.id"
+      >
+        {{ transmission.name }}
+      </option>
+    </select>
+  </div>
+
+  <button class="btn btn-primary w-100 mt-4" (click)="routeFilter()">Filter</button>
 </div>
 
 <div *ngIf="isCompact" id="model-filter-compact" class="rounded-2 shadow-xl p-3 mb-3">
@@ -49,25 +110,16 @@
       <i class="fas fa-filter me-2"></i> <span class="fw-light">Filter by</span>
     </div>
     <div class="col">
-      <select class="form-select" [(ngModel)]="activeBrandName" [compareWith]="isBrandSelected">
-        <option value="">All</option>
-        <option
-          *ngFor="let brand of brands | filterBrands: brandFilterText"
-          value="{{ brand.name }}"
-        >
+      <select class="form-select" [(ngModel)]="activeBrandId" [compareWith]="isBrandSelected">
+        <option [value]="0">All</option>
+        <option *ngFor="let brand of brands | filterBrands: brandFilterText" [value]="brand.id">
           {{ brand.name }}
         </option>
       </select>
     </div>
 
     <div class="col">
-      <button
-        class="btn btn-primary w-100"
-        routerLink="./"
-        [queryParams]="{ brand: activeBrandName }"
-      >
-        Filter
-      </button>
+      <button class="btn btn-primary w-100" (click)="routeFilter()">Filter</button>
     </div>
   </div>
 </div>

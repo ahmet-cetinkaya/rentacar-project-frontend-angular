@@ -2,9 +2,13 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import secretEnv from './secret.environment';
+
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5278/api'
+  url: 'http://localhost:4200',
+  apiUrl: 'http://localhost:5278/api',
+  ...secretEnv
 };
 
 /*

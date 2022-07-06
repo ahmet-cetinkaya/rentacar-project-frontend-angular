@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoggedResponseDto, UserForLoginDto } from '../../models/login';
 import { Observable, map } from 'rxjs';
 import { deleteTokenUserModel, setTokenUserModel } from '../../store/auth/auth.actions';
@@ -5,7 +6,6 @@ import { deleteTokenUserModel, setTokenUserModel } from '../../store/auth/auth.a
 import { AccessToken } from 'app/core/models/accessToken';
 import { CookieService } from 'ngx-cookie-service';
 import { CoreStates } from '../../store/core.reducer';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JWTTokenClaim } from '../../constants/jwtTokenClaim';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -41,6 +41,18 @@ export class AuthService {
     );
   }
 
+  loginWithMicrosoft(microsoftAccessToken: string): Observable<LoggedResponseDto> {
+    return this.httpClient.post<LoggedResponseDto>(
+      `${this.apiControllerUrl}/loginWithMicrosoft`,
+      `\"${microsoftAccessToken}\"`,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      }
+    );
+  }
+
   register(userForRegisterDto: UserForRegisterDto): Observable<AccessToken> {
     return this.httpClient.post<AccessToken>(
       `${this.apiControllerUrl}/register`,
@@ -49,7 +61,7 @@ export class AuthService {
     );
   }
 
-  refreshToken() {
+  refreshToken(): Observable<AccessToken> {
     return this.httpClient.get<AccessToken>(`${this.apiControllerUrl}/RefreshToken`, {
       withCredentials: true
     });
@@ -84,7 +96,7 @@ export class AuthService {
   }
 
   refreshAuth() {
-    if (!this.isAuthenticated) {
+    if (this.jwtHelperService.tokenGetter() && !this.isAuthenticated) {
       this.refreshToken().subscribe({
         next: accessToken => {
           this.setToken(accessToken);
@@ -103,10 +115,7 @@ export class AuthService {
     this.cookieService.delete('refreshToken');
     localStorage.removeItem('token');
     this.deleteTokenUserModel();
-  }
-
-  deleteTokenUserModel() {
-    this.store.dispatch(deleteTokenUserModel());
+    this.router.navigateByUrl('');
   }
 
   getTokenUserModel(): TokenUserModel | undefined {
@@ -120,5 +129,9 @@ export class AuthService {
       claims: decodedToken[JWTTokenClaim.role] ? decodedToken[JWTTokenClaim.role].split(',') : []
     };
     return tokenUserModel;
+  }
+
+  deleteTokenUserModel() {
+    this.store.dispatch(deleteTokenUserModel());
   }
 }

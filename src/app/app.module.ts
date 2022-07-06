@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
+import { MsalRedirectComponent } from '@azure/msal-angular';
 import { NgModule } from '@angular/core';
 import { RentalsModule } from './features/rentals/rentals.module';
 import { SharedModule } from './shared/shared.module';
@@ -37,6 +38,6 @@ import { authInterceptorProviders } from './core/interceptors/auth/auth.intercep
   ],
   exports: [],
   providers: [CookieService, authInterceptorProviders],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, MsalRedirectComponent]
 })
 export class AppModule {}

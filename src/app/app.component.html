@@ -4,7 +4,7 @@
   </header>
 
   <main class="flex-fill">
-    <router-outlet></router-outlet>
+    <router-outlet *ngIf="!isIframe"></router-outlet>
   </main>
 
   <footer>

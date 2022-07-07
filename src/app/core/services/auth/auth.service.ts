@@ -53,6 +53,18 @@ export class AuthService {
     );
   }
 
+  loginWithGoogle(googleAccessToken: string): Observable<LoggedResponseDto> {
+    return this.httpClient.post<LoggedResponseDto>(
+      `${this.apiControllerUrl}/loginWithGoogle`,
+      `\"${googleAccessToken}\"`,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      }
+    );
+  }
+
   register(userForRegisterDto: UserForRegisterDto): Observable<AccessToken> {
     return this.httpClient.post<AccessToken>(
       `${this.apiControllerUrl}/register`,

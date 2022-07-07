@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { MsalGuardConfiguration, MsalService, MSAL_GUARD_CONFIG } from '@azure/msal-angular';
 import { AuthenticationResult, RedirectRequest } from '@azure/msal-browser';
 import { LoggedResponseDto } from 'app/core/models/login';
@@ -12,6 +13,7 @@ import { AuthService } from './auth.service';
 })
 export class MicrosoftAuthService {
   constructor(
+    private router: Router,
     private authService: AuthService,
     private msalAuthService: MsalService,
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
@@ -27,6 +29,13 @@ export class MicrosoftAuthService {
       complete: () => {
         this.toastrService.info("You've been logged in successfully!");
         this.routeService.navigateFromRedirect(redirect);
+      },
+      error: error => {
+        console.log(error);
+        this.toastrService.error('Email address does not match a user.');
+        this.router.navigate(['login'], {
+          queryParams: redirect ? { redirect: JSON.stringify(redirect) } : null
+        });
       }
     });
   }

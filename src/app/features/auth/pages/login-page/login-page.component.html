@@ -2,11 +2,10 @@
   <div class="row">
     <div class="col-md my-auto">
       <h1 class="fw-bold mb-3">Log in</h1>
-      <div class="mb-5">
-        <button class="btn btn-primary" (click)="navigateLoginWithMicrosoft()">
-          Login with Microsoft
-        </button>
-
+      <div class="mb-3">
+        <div class="mb-2">
+          <app-microsoft-login-button></app-microsoft-login-button>
+        </div>
         <app-google-login-button></app-google-login-button>
       </div>
       <form [formGroup]="loginForm">

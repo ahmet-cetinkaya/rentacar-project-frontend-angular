@@ -1,10 +1,9 @@
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { LoggedResponseDto } from './../../../../core/models/login';
-import { Redirect } from '../../../../core/models/redirect';
 import { RouteService } from 'app/core/services/route/route.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserForLoginDto } from '../../../../core/models/login';
@@ -21,7 +20,6 @@ export class LoginPageComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
     private authService: AuthService,
     private toastrService: ToastrService,
     private routeService: RouteService
@@ -53,18 +51,6 @@ export class LoginPageComponent implements OnInit {
           this.routeService.navigateFromRedirect(JSON.parse(queryParams['redirect'] ?? null))
         );
       }
-    });
-  }
-
-  navigateLoginWithMicrosoft() {
-    this.activatedRoute.queryParams.subscribe(queryParams => {
-      const redirect: Redirect = queryParams['redirect']
-        ? JSON.parse(queryParams['redirect'])
-        : null;
-
-      this.router.navigate(['/login-with-microsoft'], {
-        queryParams: { redirect: redirect ? JSON.stringify(redirect.url) : null }
-      });
     });
   }
 

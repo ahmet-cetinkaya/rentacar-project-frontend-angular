@@ -1,0 +1,15 @@
+._microsoft-login-button {
+  display: flex;
+  align-items: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  min-width: 215px;
+  height: 100%;
+  background-color: #fff;
+  border: 1px solid #dadce0;
+
+  ._microsoft-icon {
+    color: #00a4ef;
+  }
+}

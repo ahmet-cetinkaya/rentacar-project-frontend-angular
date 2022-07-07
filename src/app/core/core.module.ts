@@ -18,11 +18,12 @@ import { CoreRoutingModule } from './core-routing.module';
 import { GoogleLoginButtonComponent } from './components/google-login-button/google-login-button.component';
 import { HoverDirective } from './directives/hover.directive';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { LoginWithGoogleComponent } from './pages/login-with-google/login-with-google.component';
 import { LoginWithMicrosoftComponent } from './pages/login-with-microsoft/login-with-microsoft.component';
+import { MicrosoftLoginButtonComponent } from './components/microsoft-login-button/microsoft-login-button.component';
 import { NgModule } from '@angular/core';
 import { PasswordInputComponent } from './components/password-input/password-input.component';
 import { StoreModule } from '@ngrx/store';
-import { LoginWithGoogleComponent } from './pages/login-with-google/login-with-google.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { LoginWithGoogleComponent } from './pages/login-with-google/login-with-g
     HoverDirective,
     LoginWithMicrosoftComponent,
     GoogleLoginButtonComponent,
-    LoginWithGoogleComponent
+    LoginWithGoogleComponent,
+    MicrosoftLoginButtonComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +48,7 @@ import { LoginWithGoogleComponent } from './pages/login-with-google/login-with-g
     PasswordInputComponent,
     LoadingSpinnerComponent,
     HoverDirective,
+    MicrosoftLoginButtonComponent,
     GoogleLoginButtonComponent
   ],
   providers: [

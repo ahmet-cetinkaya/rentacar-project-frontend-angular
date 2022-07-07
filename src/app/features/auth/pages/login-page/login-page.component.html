@@ -40,6 +40,28 @@
           ></app-password-input>
         </div>
 
+        <div *ngIf="requiredAuthenticatorType" class="mb-3">
+          <label for="authenticator-code-input" class="form-label"
+            >Enter your authenticator code{{ authenticatorLabelText }}.</label
+          >
+          <div class="input-group has-validation">
+            <input
+              formControlName="authenticatorCode"
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  loginForm.controls['authenticatorCode'].errors &&
+                  (loginForm.controls['authenticatorCode'].touched ||
+                    loginForm.controls['authenticatorCode'].dirty)
+              }"
+              id="authenticator-code-input"
+              placeholder="######"
+            />
+            <div class="invalid-feedback">Please enter your authenticator code.</div>
+          </div>
+        </div>
+
         <button (click)="login()" class="btn btn-primary btn-lg rounded-1 shadow-xl w-100">
           Log in
         </button>

@@ -134,6 +134,74 @@
         </div>
       </div>
     </div>
+
+    <h4 class="fw-light">Authenticator</h4>
+
+    <div *ngIf="!isEnabledAuthenticator">
+      <h6 class="fw-light">Enable Authenticator</h6>
+      <div class="mb-3">
+        <button
+          class="btn btn-primary"
+          (click)="enableEmailAuthenticator()"
+          [disabled]="enableEmailAuthenticatorProgress || enableOtpAuthenticatorProgress"
+        >
+          <i class="pi pi-envelope"></i> Enable Email Authenticator
+        </button>
+        <div *ngIf="enableEmailAuthenticatorProgress">
+          <p>The verification link has been sent to your email address.</p>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <button
+          class="btn btn-primary mb-2"
+          (click)="enableOtpAuthenticator()"
+          [disabled]="enableOtpAuthenticatorProgress || enableEmailAuthenticatorProgress"
+        >
+          <i class="pi pi-tablet"></i> Enable OTP Authenticator
+        </button>
+        <div *ngIf="enableOtpAuthenticatorProgress">
+          <p>Enter your secret key to OTP authenticator app and enter your OTP code below.</p>
+          <div class="mb-2">
+            <qrcode
+              [qrdata]="otpVerificationQrCode"
+              [width]="256"
+              [errorCorrectionLevel]="'M'"
+            ></qrcode>
+            <p>
+              Scan or enter your code to otp app: <code>{{ otpVerificationCode }}</code>
+            </p>
+          </div>
+          <div class="input-group mb-3 w-25">
+            <input
+              formControlName="authenticatorCode"
+              type="text"
+              class="form-control"
+              placeholder="Enter your generated code"
+              aria-describedby="button-otp-verify"
+            />
+            <button
+              (click)="verifyOtpAuthenticator()"
+              class="btn btn-success"
+              type="button"
+              id="button-otp-verify"
+            >
+              Verify
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isEnabledAuthenticator">
+      <h6 class="fw-light">Disable Authenticator</h6>
+      <div class="mb-3">
+        <button class="btn btn-danger" (click)="disableAuthenticator()">
+          <i class="pi pi-times"></i> Disable Authenticator
+        </button>
+      </div>
+    </div>
+
     <button (click)="updateAccount()" class="btn btn-primary">Update Account</button>
   </form>
 </div>

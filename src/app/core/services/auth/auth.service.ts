@@ -6,6 +6,7 @@ import { deleteTokenUserModel, setTokenUserModel } from '../../store/auth/auth.a
 import { AccessToken } from 'app/core/models/accessToken';
 import { CookieService } from 'ngx-cookie-service';
 import { CoreStates } from '../../store/core.reducer';
+import { EnabledOtpAuthenticatorDto } from 'app/core/models/enabledOtpAuthenticatorDto';
 import { Injectable } from '@angular/core';
 import { JWTTokenClaim } from '../../constants/jwtTokenClaim';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -74,7 +75,60 @@ export class AuthService {
   }
 
   refreshToken(): Observable<AccessToken> {
-    return this.httpClient.get<AccessToken>(`${this.apiControllerUrl}/RefreshToken`, {
+    return this.httpClient.get<AccessToken>(`${this.apiControllerUrl}/refreshToken`, {
+      withCredentials: true
+    });
+  }
+
+  enableEmailAuthenticator(): Observable<void> {
+    return this.httpClient.get<void>(`${this.apiControllerUrl}/enableEmailAuthenticator`, {
+      withCredentials: true
+    });
+  }
+
+  enableOtpAuthenticator(): Observable<EnabledOtpAuthenticatorDto> {
+    return this.httpClient.get<EnabledOtpAuthenticatorDto>(
+      `${this.apiControllerUrl}/enableOtpAuthenticator`,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
+  verifyEmailAuthenticator(activationKey: string): Observable<void> {
+    return this.httpClient.post<void>(
+      `${this.apiControllerUrl}/verifyEmailAuthenticator`,
+      `\"${activationKey}\"`,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        }),
+        withCredentials: true
+      }
+    );
+  }
+
+  verifyOtpAuthenticator(activationCode: string): Observable<void> {
+    return this.httpClient.post<void>(
+      `${this.apiControllerUrl}/verifyOtpAuthenticator`,
+      `\"${activationCode}\"`,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        }),
+        withCredentials: true
+      }
+    );
+  }
+
+  disableEmailAuthenticator(): Observable<void> {
+    return this.httpClient.get<void>(`${this.apiControllerUrl}/disableEmailAuthenticator`, {
+      withCredentials: true
+    });
+  }
+
+  disableOtpAuthenticator(): Observable<void> {
+    return this.httpClient.get<void>(`${this.apiControllerUrl}/disableOtpAuthenticator`, {
       withCredentials: true
     });
   }

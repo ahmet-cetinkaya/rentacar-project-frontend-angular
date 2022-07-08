@@ -1,11 +1,13 @@
 import { AccessToken } from 'app/core/models/accessToken';
 import { Entity } from 'app/core/models/entity';
+import { RequiredAuthenticatorType } from '../enums/requiredAuthenticatorType';
 
 export interface User extends Entity {
   firstName: string;
   lastName: string;
   email: string;
   status: boolean;
+  authenticatorType: RequiredAuthenticatorType;
 }
 
 export interface UserForUpdateFromAuthDto {

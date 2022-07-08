@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RequiredAuthenticatorType } from 'app/core/enums/requiredAuthenticatorType';
 import { User, UserForUpdateFromAuthDto } from 'app/core/models/user';
-
 import { AuthService } from 'app/core/services/auth/auth.service';
 import { CorporateCustomer } from 'app/shared/models/corporateCustomer';
-import { CorporateCustomerService } from 'app/shared/services/corporateCustomer/corporate-customer.service';
 import { Customer } from 'app/shared/models/customer';
-import { CustomerService } from 'app/shared/services/customerService/customer.service';
 import { FindeksCreditRate } from 'app/shared/models/findeksCreditRate';
-import { FindeksCreditRateService } from 'app/shared/services/findeksCreditRateService/findeks-credit-rate.service';
 import { IndividualCustomer } from 'app/shared/models/individualCustomer';
+import { CorporateCustomerService } from 'app/shared/services/corporateCustomer/corporate-customer.service';
+import { CustomerService } from 'app/shared/services/customerService/customer.service';
+import { FindeksCreditRateService } from 'app/shared/services/findeksCreditRateService/findeks-credit-rate.service';
 import { IndividualCustomerService } from 'app/shared/services/individualService/individual-customer.service';
-import { Router } from '@angular/router';
+import { UserService } from 'app/shared/services/userService/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { UpdatedUserFromAuthDto } from './../../../../core/models/user';
-import { UserService } from 'app/shared/services/userService/user.service';
 
 @Component({
   selector: 'app-account-page',
@@ -30,6 +30,13 @@ export class AccountPageComponent implements OnInit {
   corporateCustomer!: CorporateCustomer;
   currentPasswordHidden: boolean = true;
   newPasswordHidden: boolean = true;
+  get isEnabledAuthenticator() {
+    return this.user.authenticatorType !== RequiredAuthenticatorType.none;
+  }
+  enableEmailAuthenticatorProgress: boolean = false;
+  enableOtpAuthenticatorProgress: boolean = false;
+  otpVerificationCode!: string;
+  otpVerificationQrCode!: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,7 +68,8 @@ export class AccountPageComponent implements OnInit {
       firstName: [this.user.firstName, Validators.required],
       lastName: [this.user.lastName, Validators.required],
       password: ['', Validators.required],
-      newPassword: ['']
+      newPassword: [''],
+      authenticatorCode: ['']
     });
   }
 
@@ -119,5 +127,44 @@ export class AccountPageComponent implements OnInit {
         this.findeksCreditRate = findeksCreditRate;
         this.toastrService.success('Findeks credit score updated successfully');
       });
+  }
+
+  enableEmailAuthenticator() {
+    this.authService.enableEmailAuthenticator().subscribe(() => {
+      this.enableEmailAuthenticatorProgress = true;
+    });
+  }
+
+  enableOtpAuthenticator() {
+    this.authService.enableOtpAuthenticator().subscribe(response => {
+      this.otpVerificationCode = response.secretKey;
+      this.otpVerificationQrCode = `otpauth://totp/RentACar?secret=${this.otpVerificationCode}`;
+      this.enableOtpAuthenticatorProgress = true;
+    });
+  }
+
+  verifyOtpAuthenticator() {
+    const authenticatorCode: string = this.accountForm.value.authenticatorCode;
+    this.authService.verifyOtpAuthenticator(authenticatorCode).subscribe(() => {
+      this.toastrService.success('App authenticator verified successfully.');
+      this.enableOtpAuthenticatorProgress = false;
+      this.getUser();
+    });
+  }
+
+  disableAuthenticator() {
+    switch (this.user.authenticatorType) {
+      case RequiredAuthenticatorType.email:
+        this.authService.disableEmailAuthenticator().subscribe(() => {
+          this.toastrService.success('Email authenticator disabled successfully.');
+          this.getUser();
+        });
+        break;
+      case RequiredAuthenticatorType.otp:
+        this.authService.disableOtpAuthenticator().subscribe(() => {
+          this.toastrService.success('OTP authenticator disabled successfully.');
+          this.getUser();
+        });
+    }
   }
 }
